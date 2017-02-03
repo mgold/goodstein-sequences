@@ -39,8 +39,19 @@ fromBaseAndInt base val =
 
 
 toNextBase : HeredInt -> HeredInt
-toNextBase (HeredInt b i) =
-    HeredInt (b + 1) i
+toNextBase (HeredInt base exprs) =
+    let
+        upBase : Expr -> Expr
+        upBase { power, coefficient } =
+            { power = power + (power // base)
+            , coefficient =
+                if coefficient == base then
+                    coefficient + 1
+                else
+                    coefficient
+            }
+    in
+        HeredInt (base + 1) (List.map upBase exprs)
 
 
 toInt : HeredInt -> Int
