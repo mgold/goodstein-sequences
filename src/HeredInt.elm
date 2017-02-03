@@ -10,20 +10,32 @@ type alias Expr =
 
 
 fromBaseAndInt : Int -> Int -> HeredInt
-fromBaseAndInt i val =
+fromBaseAndInt base val =
     let
         hereditize : Int -> List Expr
         hereditize n =
             let
                 power =
-                    logBase (toFloat i) (toFloat n) |> floor
+                    logBase (toFloat base) (toFloat n) |> floor
 
-                coef =
-                    n // (i ^ power)
+                coeff =
+                    n // (base ^ power)
+
+                remainder =
+                    n - (coeff * (base ^ power))
+
+                expr =
+                    Expr power coeff
+
+                tail =
+                    if remainder == 0 then
+                        []
+                    else
+                        hereditize remainder
             in
-                Expr power coef :: []
+                expr :: tail
     in
-        HeredInt i (hereditize val)
+        HeredInt base (hereditize val)
 
 
 toNextBase : HeredInt -> HeredInt
