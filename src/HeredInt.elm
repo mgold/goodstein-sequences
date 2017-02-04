@@ -1,4 +1,4 @@
-module HeredInt exposing (HeredInt, fromBaseAndInt, toNextBase, toInt)
+module HeredInt exposing (HeredInt, fromBaseAndInt, toNextBase, toInt, base)
 
 
 type HeredInt
@@ -62,3 +62,8 @@ toInt (HeredInt base exprs) =
             coefficient * (base ^ power)
     in
         List.map (eval base) exprs |> List.sum
+
+
+base : HeredInt -> Int
+base (HeredInt base _) =
+    base
