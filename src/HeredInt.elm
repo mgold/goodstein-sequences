@@ -1,4 +1,4 @@
-module HeredInt exposing (..)
+module HeredInt exposing (HeredInt, fromBaseAndInt, toNextBase, toInt)
 
 
 type HeredInt

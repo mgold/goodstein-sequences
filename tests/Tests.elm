@@ -15,8 +15,10 @@ all =
                 HeredInt.fromBaseAndInt base i
                     |> HeredInt.toInt
                     |> Expect.equal i
-        , describe "known progressions"
+        , describe "Known progressions"
             [ knownProgression [ 13, 108, 1279, 16092 ]
+            , knownProgression [ 15, 111, 1283, 18752, 326593, 6588344, 150994943, 3524450280, 100077777775 ]
+            , knownProgression [ 3, 3, 3, 2, 1, 0 ]
             ]
         ]
 
