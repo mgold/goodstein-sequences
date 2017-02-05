@@ -40,8 +40,14 @@ update msg model =
             let
                 n =
                     String.toInt model.content |> Result.withDefault 3
+
+                last =
+                    model.sequences |> List.head |> Maybe.andThen List.head |> Maybe.withDefault -1
             in
-                { model | sequences = goodstein n :: model.sequences }
+                if last == n then
+                    model
+                else
+                    { model | sequences = goodstein n :: model.sequences }
 
 
 goodstein : Int -> List Int
@@ -65,8 +71,23 @@ goodstein i =
 
 view : Model -> Html Msg
 view { content, sequences } =
-    div []
-        [ div []
+    div [ style [ ( "margin-top", "20px" ), ( "margin-left", "50px" ) ] ]
+        [ div [ style [ ( "font-family", "sans-serif" ) ] ]
+            [ p []
+                [ Html.text "Calculate the first few values in the "
+                , Html.a [ href "https://en.wikipedia.org/wiki/Goodstein%27s_theorem#Goodstein_sequences" ]
+                    [ Html.text "Goodstein sequence" ]
+                , Html.text " for small integers. Created by Max Goldstein (no relation to Reuben Goodstein)."
+                ]
+            , p []
+                [ Html.text "Inspired by this "
+                , Html.a [ href "https://www.youtube.com/watch?v=oBOZ2WroiVY" ] [ Html.text "PBS Infinite Series video" ]
+                , Html.text ". "
+                , Html.a [ href "https://github.com/mgold/goodstein-sequences" ] [ Html.text "Open source" ]
+                , Html.text ". "
+                ]
+            ]
+        , div []
             [ input
                 [ onInput Change
                 , type_ "number"
@@ -84,7 +105,9 @@ view { content, sequences } =
                 []
             , button
                 [ type_ "submit"
-                  --, style [ ( "visibility", "hidden" ) ]
+                , style
+                    [ ( "margin-left", "20px" )
+                    ]
                 , onClick Submit
                 ]
                 [ Html.text "Goodstein me!" ]
